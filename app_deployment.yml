@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-app
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      containers:
+      - name: test-app
+        image: flask-app
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+
+          - name: FLASK_APP
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: FLASK_APP
+
+          - name: MYSQL_ROOT_USER
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: MYSQL_ROOT_USER
+
+          - name: MYSQL_ROOT_PASSWORD
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: MYSQL_ROOT_PASSWORD
+
+          - name: MYSQL_ROOT_HOST
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: MYSQL_ROOT_HOST
+
+          - name: MYSQL_ROOT_PORT
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: MYSQL_ROOT_PORT
+
+          - name: MYSQL_ROOT_DB
+
+            valueFrom:
+
+              configMapKeyRef:
+
+                name: app-config
+
+                key: MYSQL_ROOT_DB
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-app-service
+spec:
+  selector:
+    app: test-app
+  ports:
+  - port: 5000
+    nodePort: 30088
+    targetPort: 5000
+  type: NodePort

@@ -1,0 +1,6 @@
+mysql-connector-python==8.1.0
+beautifulsoup4
+Flask
+requests
+pymysql
+peewee
