@@ -6,7 +6,7 @@ pipeline {
         DOCKER_CONTAINER = "flask-application"
     }
 
-    stages('Build') {
+    stage('Build') {
         steps{
             echo 'Building..'
             sh 'docker build -t flask-app .'
