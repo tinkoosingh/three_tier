@@ -17,9 +17,9 @@ pipeline {
     stage('Test'){
         steps{
             echo 'Testing..'
-            sh 'docker stop $DOCKER_CONTAINER  || true'
-            sh 'docker rm $DOCKER_CONTAINER  || true'
-            sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
+            sh 'sudo docker stop $DOCKER_CONTAINER  || true'
+            sh 'sudo docker rm $DOCKER_CONTAINER  || true'
+            sh 'sudo docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
         }
     }
 
@@ -28,11 +28,11 @@ pipeline {
     stage('Deploy'){
         steps{
             echo 'Deploying....'
-            sh 'kubectl -- apply -f mysql_dep/secret.yml'
-            sh 'kubectl -- apply -f mysql_dep/storage.yml'
-            sh 'kubectl -- apply -f mysql_dep/deployment.yml'
-            sh 'kubectl -- apply -f configmap.yml'
-            sh 'kubectl -- apply -f app_deployment.yml'
+            sh 'minikube kubectl -- apply -f mysql_dep/secret.yml'
+            sh 'minikube kubectl -- apply -f mysql_dep/storage.yml'
+            sh 'minikube kubectl -- apply -f mysql_dep/deployment.yml'
+            sh 'minikube kubectl -- apply -f configmap.yml'
+            sh 'minikube kubectl -- apply -f app_deployment.yml'
         }
     }
 }
