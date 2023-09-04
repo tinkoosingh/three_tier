@@ -17,9 +17,9 @@ pipeline {
     stage('Test'){
         steps{
             echo 'Testing..'
-            sh 'sudo docker stop $DOCKER_CONTAINER  || true'
-            sh 'sudo docker rm $DOCKER_CONTAINER  || true'
-            sh 'sudo docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
+            sh 'docker stop $DOCKER_CONTAINER  || true'
+            sh 'docker rm $DOCKER_CONTAINER  || true'
+            sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
         }
     }
 
