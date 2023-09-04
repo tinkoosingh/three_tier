@@ -6,12 +6,12 @@ pipeline {
         DOCKER_CONTAINER = "flask-application"
     }
 
-    stage('Build') {
+    stages('Build') {
         steps{
             echo 'Building..'
             sh 'docker build -t flask-app .'
         }
-    }
+    
 
     stage('Test'){
         steps{
@@ -21,6 +21,8 @@ pipeline {
             sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
         }
     }
+
+    
 
     stage('Deploy'){
         steps{
@@ -32,4 +34,5 @@ pipeline {
             sh 'kubectl -- apply -f app_deployment.yml'
         }
     }
+}
 }
