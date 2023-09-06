@@ -28,6 +28,7 @@ pipeline {
     stage('Deploy'){
         steps{
             echo 'Deploying....'
+            sh 'minikube delete'
             sh 'minikube start'
             // sh 'minikube kubectl -- apply -f mysql_dep/secret.yml'
             // sh 'minikube kubectl -- apply -f mysql_dep/storage.yml'
