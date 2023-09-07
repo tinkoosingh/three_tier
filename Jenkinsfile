@@ -17,7 +17,7 @@ pipeline {
                     sh "${tool("sonar")}/bin/sonar-scanner"
         }
     }
-
+    }
     stage('Build') {
         steps{
             echo 'Building..'
