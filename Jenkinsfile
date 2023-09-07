@@ -36,7 +36,7 @@ pipeline {
         }
         }        
     }
-    }
+    
 
     stage('Build') {
         steps{
@@ -67,6 +67,7 @@ pipeline {
             sh 'minikube kubectl -- apply -f configmap.yml'
             sh 'minikube kubectl -- apply -f app_deployment.yml'
         }
+    }
     }
 }
 
