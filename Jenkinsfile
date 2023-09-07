@@ -10,7 +10,7 @@ pipeline {
 
     stage('Quality check'){
         steps{
-            withSonarQubeEnv("Sonarserver") {
+            withSonarQubeEnv("sonar") {
                     // sh 'chmod +x gradlew'
                     // sh './gradlew sonarqube'
                     tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
