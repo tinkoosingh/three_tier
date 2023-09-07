@@ -15,7 +15,7 @@ pipeline {
                     // sh './gradlew sonarqube'
                     tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     sh "${tool("sonar")}/bin/sonar-scanner"
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar'
+                    waitForQualityGate abortPipeline: true
         }
     }
     }
