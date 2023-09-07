@@ -7,21 +7,32 @@ pipeline {
     }
 
     stages{
-    // stage('Build') {
-    //     steps{
-    //         echo 'Building..'
-    //         sh 'docker build -t flask-app .'
-    //     }
-    // }
 
-    // stage('Test'){
-    //     steps{
-    //         echo 'Testing..'
-    //         sh 'docker stop $DOCKER_CONTAINER  || true'
-    //         sh 'docker rm $DOCKER_CONTAINER  || true'
-    //         sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
-    //     }
-    // }
+    stage('Quality check'){
+        steps{
+            withSonarQubeEnv("Sonarserver") {
+                    // sh 'chmod +x gradlew'
+                    // sh './gradlew sonarqube'
+                    tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    sh "${tool("sonar")}/bin/sonar-scanner"
+        }
+    }
+
+    stage('Build') {
+        steps{
+            echo 'Building..'
+            sh 'docker build -t flask-app .'
+        }
+    }
+
+    stage('Test'){
+        steps{
+            echo 'Testing..'
+            sh 'docker stop $DOCKER_CONTAINER  || true'
+            sh 'docker rm $DOCKER_CONTAINER  || true'
+            sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
+        }
+    }
 
     
 
