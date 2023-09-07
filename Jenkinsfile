@@ -9,17 +9,22 @@ pipeline {
     stages{
 
     stage('Quality check'){
+        
+        
         steps{
+        script{
+
             withSonarQubeEnv("sonar") {
                     // sh 'chmod +x gradlew'
                     // sh './gradlew sonarqube'
                     tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     sh "${tool("sonar")}/bin/sonar-scanner"
                     def qualitygate = waitForQualityGate()
-                     if (qualitygate.status != "OK") {
-                        error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-                     }
+                        if (qualitygate.status != "OK") {
+                            error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                        }
         }
+        }        
     }
     }
 
