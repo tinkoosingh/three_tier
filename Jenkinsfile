@@ -45,6 +45,12 @@ pipeline {
         }
     }
 
+    stage('Image Scane'){
+        steps{
+            sh 'trivy image flask-app'
+        }
+    }
+
     stage('Test'){
         steps{
             echo 'Testing..'
