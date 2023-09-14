@@ -94,6 +94,6 @@ spec:
     app: test-app
   ports:
   - port: 5000
-    nodePort: 30088
+    # nodePort: 30088
     targetPort: 5000
-  type: NodePort
+  # type: NodePort
