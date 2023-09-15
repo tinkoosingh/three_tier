@@ -25,25 +25,26 @@ pipeline {
     }
     }
 
-    // stage('quality check'){
-    //     steps{
-    //     script{
+    stage('quality check'){
+        steps{
+        script{
 
-    //                 def qualitygate = waitForQualityGate()
-    //                     if (qualitygate.status != "OK") {
-    //                         error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-    //                     }
-    //     }
-    //     }        
-    // }
+                    def qualitygate = waitForQualityGate()
+                        if (qualitygate.status != "OK") {
+                            error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+                        }
+        }
+        }        
+    }
     
 
-    // stage('Build') {
-    //     steps{
-    //         echo 'Building..'
-    //         sh 'docker build -t flask-app .'
-    //     }
-    // }
+    stage('Build') {
+        steps{
+            echo 'Building..'
+            sh 'git clone https://github.com/tinkoosingh/three_tier.git'
+            sh 'docker build -t flask-app .'
+        }
+    }
 
     // stage('Image Scane'){
     //     steps{
