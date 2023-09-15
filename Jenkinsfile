@@ -41,7 +41,7 @@ pipeline {
     stage('Build') {
         steps{
             echo 'Building..'
-            sh 'git clone https://github.com/tinkoosingh/three_tier.git'
+            //sh 'git clone https://github.com/tinkoosingh/three_tier.git'
             sh 'docker build -t flask-app .'
         }
     }
