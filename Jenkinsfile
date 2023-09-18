@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "flask-app"
-        DOCKER_CONTAINER = "flask-application"
+        DOCKER_IMAGE = 'tinkoosingh.jfrog.io/docker-local/flask-app:v1'
+        DOCKER_CONTAINER = 'flask-application'
+        DOCKER_USERNAME = 'tinkoosingh.jfrog.io/docker-local'
+        DOCKER_PASSWORD = credentials('jfrog_token')
     }
 
     stages{
@@ -15,8 +17,6 @@ pipeline {
         
 
             withSonarQubeEnv("sonar") {
-                    // sh 'chmod +x gradlew'
-                    // sh './gradlew sonarqube'
                     tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
                     sh "${tool("sonar")}/bin/sonar-scanner"
                    
@@ -38,26 +38,28 @@ pipeline {
     }
     
 
-    stage('Build') {
+    stage('getting image from Artifactory') {
         steps{
-            echo 'Building..'
-            //sh 'git clone https://github.com/tinkoosingh/three_tier.git'
-            sh 'docker build -t flask-app .'
+            echo 'Fetching docker image..'
+            sh 'eval $(minikube docker-env)'
+            sh 'git clone https://github.com/tinkoosingh/three_tier.git'
+            sh 'docker login --username=${DOCKER_USERNAME} --password-stdin<<<${DOCKER_PASSWORD}'
+            sh 'docker pull ${DOCKER_IMAGE}'
         }
     }
 
     stage('Image Scane'){
         steps{
-            sh 'trivy image flask-app'
+            sh 'trivy image ${DOCKER_IMAGE}'
         }
     }
 
     stage('Test'){
         steps{
             echo 'Testing..'
-            sh 'docker stop $DOCKER_CONTAINER  || true'
-            sh 'docker rm $DOCKER_CONTAINER  || true'
-            sh 'docker run --name $DOCKER_CONTAINER -d $DOCKER_IMAGE '  
+            sh 'docker stop ${DOCKER_CONTAINER}  || true'
+            sh 'docker rm ${DOCKER_CONTAINER}  || true'
+            sh 'docker run --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}'  
         }
     }
 
@@ -68,9 +70,7 @@ pipeline {
             echo 'Deploying....'
             sh 'minikube delete'
             sh 'minikube start'
-            sh 'minikube kubectl -- apply -f mysql_dep/secret.yml'
-            sh 'minikube kubectl -- apply -f mysql_dep/storage.yml'
-            sh 'minikube kubectl -- apply -f mysql_dep/deployment.yml'
+            sh 'minikube kubectl -- apply -f mysql_dep'
             sh 'minikube kubectl -- apply -f configmap.yml'
             sh 'minikube kubectl -- apply -f app_deployment.yml'
         }
