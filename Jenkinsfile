@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'tinkoosingh.jfrog.io/docker-local/flask-app:v1'
         DOCKER_CONTAINER = 'flask-application'
-        DOCKER_USERNAME = 'tinkoosingh.jfrog.io/docker-local'
+        DOCKER_USERNAME = 'singhtinkoo666@gmail.com tinkoosingh.jfrog.io'
         DOCKER_PASSWORD = credentials('jfrog_token')
     }
 
@@ -40,7 +40,7 @@ pipeline {
     stage('Getting image from Artifactory') {
         steps{
             echo 'Fetching docker image..'
-            sh 'docker login -u=${DOCKER_USERNAME} -p=${DOCKER_PASSWORD}'
+            sh 'docker login -u${DOCKER_USERNAME} -p=${DOCKER_PASSWORD}'
             sh 'docker pull ${DOCKER_IMAGE}'
         }
     }
