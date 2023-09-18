@@ -9,25 +9,19 @@ pipeline {
     }
 
     stages{
-
     stage('Pre-req'){
         steps{
             sh 'minikube start'
             sh 'eval $(minikube docker-env)'
+            sh 'git clone https://github.com/tinkoosingh/three_tier.git'
         }
     }
 
     stage('code check by sonarqube'){
-        
-        
         steps{
-        
-
             withSonarQubeEnv("sonar") {
                     tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    sh "${tool("sonar")}/bin/sonar-scanner"
-                   
-        
+                    sh "${tool("sonar")}/bin/sonar-scanner"      
         }        
     }
     }
@@ -35,7 +29,6 @@ pipeline {
     stage('quality check'){
         steps{
         script{
-
                     def qualitygate = waitForQualityGate()
                         if (qualitygate.status != "OK") {
                             error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
@@ -43,9 +36,8 @@ pipeline {
         }
         }        
     }
-    
 
-    stage('getting image from Artifactory') {
+    stage('Getting image from Artifactory') {
         steps{
             echo 'Fetching docker image..'
             sh 'git clone https://github.com/tinkoosingh/three_tier.git'
@@ -68,8 +60,6 @@ pipeline {
             sh 'docker run --name ${DOCKER_CONTAINER} -d ${DOCKER_IMAGE}'  
         }
     }
-
-
 
     stage('Deploy'){
         steps{
