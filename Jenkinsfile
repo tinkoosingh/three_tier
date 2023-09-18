@@ -40,7 +40,7 @@ pipeline {
     stage('Getting image from Artifactory') {
         steps{
             echo 'Fetching docker image..'
-            sh 'docker login --username=${DOCKER_USERNAME} --password-stdin<<<${DOCKER_PASSWORD}'
+            sh 'docker login -u=${DOCKER_USERNAME} -p=${DOCKER_PASSWORD}'
             sh 'docker pull ${DOCKER_IMAGE}'
         }
     }
@@ -63,8 +63,6 @@ pipeline {
     stage('Deploy'){
         steps{
             echo 'Deploying....'
-            //sh 'minikube delete'
-            //sh 'minikube start'
             sh 'minikube kubectl -- apply -f mysql_dep'
             sh 'minikube kubectl -- apply -f configmap.yml'
             sh 'minikube kubectl -- apply -f app_deployment.yml'
