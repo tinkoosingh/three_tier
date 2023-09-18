@@ -40,7 +40,7 @@ pipeline {
     stage('Getting image from Artifactory') {
         steps{
             echo 'Fetching docker image..'
-            sh 'git clone https://github.com/tinkoosingh/three_tier.git'
+            //sh 'git clone https://github.com/tinkoosingh/three_tier.git'
             sh 'docker login --username=${DOCKER_USERNAME} --password-stdin<<<${DOCKER_PASSWORD}'
             sh 'docker pull ${DOCKER_IMAGE}'
         }
