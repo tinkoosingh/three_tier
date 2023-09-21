@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: flask-app
+        image: tinkoosingh.jfrog.io/docker-local/flask-app:v1
         imagePullPolicy: IfNotPresent
         resources:
           limits:
