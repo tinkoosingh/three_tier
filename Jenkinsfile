@@ -67,7 +67,7 @@ pipeline {
             sh 'minikube kubectl -- apply -f mysql_dep'
             sh 'minikube kubectl -- apply -f configmap.yml'
             sh 'minikube kubectl -- apply -f app_deployment.yml'
-            sh 'kubectl get all'
+            sh 'minikube kubectl get all'
         }
     }
     }
