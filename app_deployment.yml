@@ -14,9 +14,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: tinkoosingh.jfrog.io/docker-local/flask-app:v1
-        imagePullSecrets: 
-        - name: jfrog-secret
+        image: tinkoosingh.jfrog.io/docker-local/flask-app:v1 
         resources:
           limits:
             memory: "128Mi"
@@ -84,6 +82,8 @@ spec:
                 name: app-config
 
                 key: MYSQL_ROOT_DB
+      imagePullSecrets:
+        - name: jfrog-secret
 ---
 
 apiVersion: v1
