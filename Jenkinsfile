@@ -9,7 +9,7 @@ pipeline {
     }
 
     stages{
-    stage('Pre-req'){
+    // stage('Pre-req'){
     //     steps{
     //         sh 'minikube start'
     //         sh 'eval $(minikube docker-env)'
@@ -75,4 +75,3 @@ pipeline {
     }
 }
 
-}
