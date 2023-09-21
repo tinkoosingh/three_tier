@@ -15,7 +15,8 @@ spec:
       containers:
       - name: test-app
         image: tinkoosingh.jfrog.io/docker-local/flask-app:v1
-        imagePullPolicy: Never
+        imagePullSecrets: 
+        - name: jfrog-secret
         resources:
           limits:
             memory: "128Mi"
