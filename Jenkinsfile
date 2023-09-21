@@ -14,6 +14,7 @@ pipeline {
             sh 'minikube start'
             sh 'eval $(minikube docker-env)'
             sh 'git pull https://github.com/tinkoosingh/three_tier.git'
+            sh 'minikube ip'
             //sh 'git clone https://github.com/tinkoosingh/three_tier.git'
         }
     }
