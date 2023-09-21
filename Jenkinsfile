@@ -13,6 +13,7 @@ pipeline {
         steps{
             sh 'minikube start'
             sh 'eval $(minikube docker-env)'
+            sh 'git pull'
             //sh 'git clone https://github.com/tinkoosingh/three_tier.git'
         }
     }
