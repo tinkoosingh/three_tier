@@ -31,6 +31,13 @@ def productData():
         soup = BeautifulSoup(response.content,'html.parser')
         data = soup.find_all('div',{"class":"_1xHGtK _373qXS"})
         data_df = []
+        conn = MySQLDatabase(user=MYSQL_ROOT_USER, password=MYSQL_ROOT_PASSWORD,
+                    host=MYSQL_ROOT_HOST, port=int(MYSQL_ROOT_PORT))
+        mycursor = conn.cursor()
+        mycursor.execute("create database practice")
+        mycursor.execute("create table flipkart(Product varchar(30), Details(200));")
+        conn.commit()
+        conn.close()
         print("stage 2 ***********************************************************************************")
         for text_data in data:
             conn = MySQLDatabase(database=MYSQL_ROOT_DB, user=MYSQL_ROOT_USER, password=MYSQL_ROOT_PASSWORD,
