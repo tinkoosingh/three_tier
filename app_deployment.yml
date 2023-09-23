@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: test-app
-        image: tinkoosingh.jfrog.io/docker-local/flask-app:v1 
+        image: tinkoosingh.jfrog.io/docker-local/flask-application:v2 
         resources:
           limits:
             memory: "128Mi"

@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'tinkoosingh.jfrog.io/docker-local/flask-app:v1'
+        DOCKER_IMAGE = 'tinkoosingh.jfrog.io/docker-local/flask-application:v2'
         DOCKER_CONTAINER = 'flask-application'
         DOCKER_USERNAME = 'singhtinkoo666@gmail.com tinkoosingh.jfrog.io'
         DOCKER_PASSWORD = credentials('jfrog_token')
