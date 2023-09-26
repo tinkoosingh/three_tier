@@ -66,10 +66,10 @@ pipeline {
         steps{
             echo 'Deploying....'
             // sh 'minikube kubectl -- create secret docker-registry jfrog-secret --docker-server=tinkoosingh.jfrog.io/docker-local --docker-username=singhtinkoo666@gmail.com --docker-password=${DOCKER_PASSWORD}'
-            sh 'minikube kubectl -- apply -f mysql_dep'
-            sh 'minikube kubectl -- apply -f configmap.yml'
-            sh 'minikube kubectl -- apply -f app_deployment.yml'
-            sh 'minikube kubectl get all'
+            sh 'kubectl apply -f mysql_dep'
+            sh 'kubectl apply -f configmap.yml'
+            sh 'kubectl apply -f app_deployment.yml'
+            sh 'kubectl get all'
         }
     }
     }
