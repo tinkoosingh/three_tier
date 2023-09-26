@@ -21,9 +21,9 @@ pipeline {
 
     stage('code check by sonarqube'){
         steps{
-            withSonarQubeEnv("sonar") {
-                    tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    sh "${tool("sonar")}/bin/sonar-scanner"      
+            withSonarQubeEnv("sonar_creds") {
+                    tool name: 'sonar_creds', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+                    sh "${tool("sonar_creds")}/bin/sonar-scanner"      
         }        
     }
     }
@@ -74,4 +74,5 @@ pipeline {
     }
     }
 }
+
 
