@@ -63,16 +63,24 @@ pipeline {
     //     }
     // }
 
-    stage('Deploy'){
-        steps{
-            echo 'Deploying....'
-            // sh 'minikube kubectl -- create secret docker-registry jfrog-secret --docker-server=tinkoosingh.jfrog.io/docker-local --docker-username=singhtinkoo666@gmail.com --docker-password=${DOCKER_PASSWORD}'
-            sh 'kubectl apply -f mysql_dep --insecure-skip-tls-verify'
-            sh 'kubectl apply -f configmap.yml --insecure-skip-tls-verify'
-            sh 'kubectl apply -f app_deployment.yml --insecure-skip-tls-verify'
-            sh 'kubectl get all --insecure-skip-tls-verify'
-        }
-    }
+    stage("Deploy To Kuberates Cluster"){
+       kubernetesDeploy(
+         configs: 'app_deployment.yml', 
+         kubeconfigId: 'kubernetes_creds',
+         enableConfigSubstitution: true
+        )
+     }
+
+    // stage('Deploy'){
+    //     steps{
+    //         echo 'Deploying....'
+    //         // sh 'minikube kubectl -- create secret docker-registry jfrog-secret --docker-server=tinkoosingh.jfrog.io/docker-local --docker-username=singhtinkoo666@gmail.com --docker-password=${DOCKER_PASSWORD}'
+    //         sh 'kubectl apply -f mysql_dep --insecure-skip-tls-verify'
+    //         sh 'kubectl apply -f configmap.yml --insecure-skip-tls-verify'
+    //         sh 'kubectl apply -f app_deployment.yml --insecure-skip-tls-verify'
+    //         sh 'kubectl get all --insecure-skip-tls-verify'
+    //     }
+    // }
     }
 }
 
