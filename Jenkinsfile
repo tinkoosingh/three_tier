@@ -6,7 +6,7 @@ pipeline {
         DOCKER_CONTAINER = 'flask-application'
         DOCKER_USERNAME = 'singhtinkoo666@gmail.com tinkoosingh.jfrog.io'
         DOCKER_PASSWORD = credentials('jfrog_token')
-        KUBE_TOKEN = credentials('kube_token')
+        KUBE_TOKEN = credentials('kubernetes_creds')
     }
 
     stages{
@@ -63,24 +63,16 @@ pipeline {
     //     }
     // }
 
-    stage("Deploy To Kuberates Cluster"){
-       kubernetesDeploy(
-         configs: 'app_deployment.yml', 
-         kubeconfigId: 'kubernetes_creds',
-         enableConfigSubstitution: true
-        )
-     }
-
-    // stage('Deploy'){
-    //     steps{
-    //         echo 'Deploying....'
-    //         // sh 'minikube kubectl -- create secret docker-registry jfrog-secret --docker-server=tinkoosingh.jfrog.io/docker-local --docker-username=singhtinkoo666@gmail.com --docker-password=${DOCKER_PASSWORD}'
-    //         sh 'kubectl apply -f mysql_dep --insecure-skip-tls-verify'
-    //         sh 'kubectl apply -f configmap.yml --insecure-skip-tls-verify'
-    //         sh 'kubectl apply -f app_deployment.yml --insecure-skip-tls-verify'
-    //         sh 'kubectl get all --insecure-skip-tls-verify'
-    //     }
-    // }
+    stage('Deploy'){
+        steps{
+            echo 'Deploying....'
+            // sh 'minikube kubectl -- create secret docker-registry jfrog-secret --docker-server=tinkoosingh.jfrog.io/docker-local --docker-username=singhtinkoo666@gmail.com --docker-password=${DOCKER_PASSWORD}'
+            sh 'kubectl apply -f mysql_dep --token ${KUBE_TOKEN} --server https://172.0.0.4:6443'
+            sh 'kubectl apply -f configmap.yml --token ${KUBE_TOKEN} --server https://172.0.0.4:6443'
+            sh 'kubectl apply -f app_deployment.yml --token ${KUBE_TOKEN} --server https://172.0.0.4:6443'
+            sh 'kubectl get all --token ${KUBE_TOKEN} --server https://172.0.0.4:6443'
+        }
+    }
     }
 }
 
