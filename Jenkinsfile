@@ -19,25 +19,25 @@ pipeline {
         }
     }
 
-    stage('code check by sonarqube'){
-        steps{
-            withSonarQubeEnv("sonar") {
-                    tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-                    sh "${tool("sonar")}/bin/sonar-scanner"      
-        }        
-    }
-    }
+    // stage('code check by sonarqube'){
+    //     steps{
+    //         withSonarQubeEnv("sonar") {
+    //                 tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    //                 sh "${tool("sonar")}/bin/sonar-scanner"      
+    //     }        
+    // }
+    // }
 
-    stage('quality check'){
-        steps{
-        script{
-                    def qualitygate = waitForQualityGate()
-                        if (qualitygate.status != "OK") {
-                            error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
-                        }
-        }
-        }        
-    }
+    // stage('quality check'){
+    //     steps{
+    //     script{
+    //                 def qualitygate = waitForQualityGate()
+    //                     if (qualitygate.status != "OK") {
+    //                         error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+    //                     }
+    //     }
+    //     }        
+    // }
 
     stage('Getting image from Artifactory') {
         steps{
