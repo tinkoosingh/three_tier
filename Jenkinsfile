@@ -6,7 +6,6 @@ pipeline {
         DOCKER_CONTAINER = 'flask-application'
         DOCKER_USERNAME = 'singhtinkoo666@gmail.com tinkoosingh.jfrog.io'
         DOCKER_PASSWORD = credentials('jfrog_token')
-        KUBE_TOKEN = credentials('kubernetes_creds')
     }
 
     stages{
